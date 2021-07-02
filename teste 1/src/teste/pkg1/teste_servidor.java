@@ -43,5 +43,4 @@ public class teste_servidor {
             Logger.getLogger(teste_servidor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
 }
