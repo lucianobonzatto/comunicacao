@@ -7,6 +7,7 @@ package teste.pkg1;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Date;
@@ -21,7 +22,10 @@ public class teste_servidor {
     public static void main(String[] args) {
         // TODO code application logic here
         try {
-            ServerSocket server = new ServerSocket(12345);
+            ServerSocket server = new ServerSocket(2620);
+            if(!server.isBound()){
+                server.bind(new InetSocketAddress("25.107.71.249", 0));
+            }
             
             while(true) {
             // o método accept() bloqueia a execução até que
