@@ -34,7 +34,9 @@ public class teste_servidor {
                 System.out.println("Cliente conectado: " + cliente.getInetAddress().getHostAddress());
                 ObjectOutputStream saida = new ObjectOutputStream(cliente.getOutputStream());
                 saida.flush();
-                saida.writeObject(new Date());
+                String msg = new String();
+                msg = "vai se fude joao";
+                saida.writeObject(msg);
                 saida.close();
                 cliente.close();
             }

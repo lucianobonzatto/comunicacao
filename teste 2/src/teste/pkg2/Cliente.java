@@ -38,11 +38,16 @@ public class Cliente extends Thread{
         try {
             entrada = new ObjectInputStream(cliente.getInputStream());
             while(connected){
-                msg = (String)entrada.readObject();
+                try{
+                    msg = (String)entrada.readObject();
+                }
+                catch(IOException | ClassNotFoundException ex){         //Evita que não ultrapasse o tamanho do arquivo.
+                    
+                }
             }
             entrada.close();
-        } catch (IOException | ClassNotFoundException ex) {
-            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

@@ -22,11 +22,10 @@ public class InterfaceGraficaServer extends javax.swing.JFrame {
      */
    
     public InterfaceGraficaServer(int port) throws IOException {
-        enviarButton.setEnabled(false);
         System.out.println("port = " + port);
         server = new Server(port);
+        server.start();
         initComponents();
-        enviarButton.setEnabled(true);
     }
 
     /**
@@ -126,6 +125,7 @@ public class InterfaceGraficaServer extends javax.swing.JFrame {
     private void enviarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enviarButtonActionPerformed
         try {
             // TODO add your handling code here:
+            System.out.println("msg = " + mensagemTextField.getText());
             server.sendMsg(mensagemTextField.getText());
         } catch (IOException ex) {
             Logger.getLogger(InterfaceGraficaServer.class.getName()).log(Level.SEVERE, null, ex);

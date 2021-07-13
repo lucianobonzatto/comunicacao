@@ -131,21 +131,27 @@ public class InterfaceGrafica extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        
         if(serverRadio.isSelected()){
+            InterfaceGraficaServer server;
             try {
-                new InterfaceGraficaServer(Integer.parseInt(portTextField.getText())).setVisible(true);
+                server = new InterfaceGraficaServer(Integer.parseInt(portTextField.getText()));
+                server.setVisible(true);
+                this.setVisible(false);
             } catch (IOException ex) {
                 Logger.getLogger(InterfaceGrafica.class.getName()).log(Level.SEVERE, null, ex);
             }
-            this.setVisible(false);
         }
         else{
+            InterfaceGraficaCliente cliente;
             try {
-                new InterfaceGraficaCliente(IPTextField.getText(), Integer.parseInt(portTextField.getText())).setVisible(true);
+                cliente = new InterfaceGraficaCliente(IPTextField.getText(), Integer.parseInt(portTextField.getText()));
+                cliente.setVisible(true);
+                this.setVisible(false);
+                cliente.loop();
             } catch (IOException ex) {
                 Logger.getLogger(InterfaceGrafica.class.getName()).log(Level.SEVERE, null, ex);
             }
-            this.setVisible(false);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 

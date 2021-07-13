@@ -30,6 +30,7 @@ public class Server extends Thread{
     public void run(){
         try {
             cliente = server.accept();
+            System.out.println("Cliente conectado: " + cliente.getInetAddress().getHostAddress());
             saida = new ObjectOutputStream(cliente.getOutputStream());
             saida.flush();
             
@@ -42,6 +43,10 @@ public class Server extends Thread{
         if(cliente.isConnected()){
             saida.flush();
             saida.writeObject(msg);
+        }
+        else
+        {
+            System.out.println("nao conectado");
         }
     }
     
