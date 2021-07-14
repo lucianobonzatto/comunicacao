@@ -12,6 +12,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -40,13 +41,14 @@ public class Server extends Thread{
     }
     
     public void sendMsg(String msg) throws IOException{
-        if(cliente.isConnected()){
-            saida.flush();
-            saida.writeObject(msg);
+        if(cliente != null){
+            if(cliente.isConnected()){
+                saida.flush();
+                saida.writeObject(msg);
+            }
         }
-        else
-        {
-            System.out.println("nao conectado");
+        else{
+            JOptionPane.showMessageDialog(null, "erro: " + "Nenhum cliente conectado", "Sem cliente conectado", JOptionPane.ERROR_MESSAGE);
         }
     }
     

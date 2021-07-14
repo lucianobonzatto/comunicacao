@@ -19,17 +19,17 @@ import javax.swing.JOptionPane;
 public class Cliente extends Thread{
     private Socket cliente;
     private String msg;
-    private boolean connected;
     
     public Cliente(String IP, int port){
         try {
             cliente = new Socket(IP,port);
+            
+            msg = new String();
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "erro: " + ex, "janela de erro", JOptionPane.ERROR_MESSAGE);
-            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            System.exit(0);
         }
-        msg = new String();
-        connected = cliente.isConnected();
     }
     
     @Override
@@ -37,9 +37,10 @@ public class Cliente extends Thread{
         ObjectInputStream entrada;
         try {
             entrada = new ObjectInputStream(cliente.getInputStream());
-            while(connected){
+            while(cliente.isConnected()){
                 try{
                     msg = (String)entrada.readObject();
+                    //System.out.println("msg = " + msg);
                 }
                 catch(IOException | ClassNotFoundException ex){         //Evita que não ultrapasse o tamanho do arquivo.
                     
@@ -47,7 +48,7 @@ public class Cliente extends Thread{
             }
             entrada.close();
         } catch (IOException ex) {
-            //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

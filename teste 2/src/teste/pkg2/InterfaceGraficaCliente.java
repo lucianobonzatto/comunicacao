@@ -13,13 +13,28 @@ import java.util.logging.Logger;
  *
  * @author lucia
  */
-public class InterfaceGraficaCliente extends javax.swing.JFrame {
+public class InterfaceGraficaCliente extends javax.swing.JFrame{
     
     private Cliente cliente;
+    Thread teste = new Thread(new Runnable() {
+        public void run() {
+            while(true){
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(InterfaceGraficaCliente.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                if(!cliente.getMsg().isEmpty())
+                {
+                    mensagemTextField.setText(cliente.getMsg());
+                }
+            }
+        }
+    });
     /**
      * Creates new form InterfaceGraficaCliente
      */
-    public InterfaceGraficaCliente() {
+    public InterfaceGraficaCliente(){
         initComponents();
     }
     
@@ -30,18 +45,22 @@ public class InterfaceGraficaCliente extends javax.swing.JFrame {
         
         initComponents();
         cliente.start();
+        teste.start();
+        
         mensagemTextField.setEditable(false);
         criptografiaTextField.setEditable(false);
+        binarioTextField.setEditable(false);
         algoritmoTextField.setEditable(false);
+        
+
+        
     }
     
     public void loop() throws InterruptedException{
-       // while(true){
-       
-       //Thread.sleep(500);
-           if(!cliente.getMsg().isEmpty())
-               mensagemTextField.setText(cliente.getMsg());
-        //}
+      //  while(true){
+            if(!cliente.getMsg().isEmpty())
+                mensagemTextField.setText(cliente.getMsg());
+       // }
     }
 
     /**
@@ -60,7 +79,8 @@ public class InterfaceGraficaCliente extends javax.swing.JFrame {
         mensagemTextField = new javax.swing.JTextField();
         criptografiaTextField = new javax.swing.JTextField();
         algoritmoTextField = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        binarioTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -81,12 +101,13 @@ public class InterfaceGraficaCliente extends javax.swing.JFrame {
 
         jLabel3.setText("alg");
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        algoritmoTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                algoritmoTextFieldActionPerformed(evt);
             }
         });
+
+        jLabel4.setText("bin");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -95,23 +116,19 @@ public class InterfaceGraficaCliente extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(mensagemTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
-                            .addComponent(criptografiaTextField)
-                            .addComponent(algoritmoTextField))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)
-                        .addGap(91, 91, 91))))
+                    .addComponent(mensagemTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
+                    .addComponent(criptografiaTextField)
+                    .addComponent(algoritmoTextField)
+                    .addComponent(binarioTextField))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -127,11 +144,13 @@ public class InterfaceGraficaCliente extends javax.swing.JFrame {
                             .addComponent(jLabel2)
                             .addComponent(criptografiaTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(binarioTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(algoritmoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(65, 65, 65)
-                        .addComponent(jButton1))
+                            .addComponent(algoritmoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(126, Short.MAX_VALUE))
         );
@@ -139,13 +158,9 @@ public class InterfaceGraficaCliente extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
-            loop();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(InterfaceGraficaCliente.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void algoritmoTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_algoritmoTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_algoritmoTextFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -153,11 +168,12 @@ public class InterfaceGraficaCliente extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField algoritmoTextField;
+    private javax.swing.JTextField binarioTextField;
     private javax.swing.JTextField criptografiaTextField;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField mensagemTextField;
     // End of variables declaration//GEN-END:variables

@@ -54,6 +54,10 @@ public class InterfaceGrafica extends javax.swing.JFrame {
 
         jLabel5.setText("port");
 
+        IPTextField.setText("25.107.73.168");
+
+        portTextField.setText("2620");
+
         jButton2.setText("connect");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -148,7 +152,7 @@ public class InterfaceGrafica extends javax.swing.JFrame {
                 cliente = new InterfaceGraficaCliente(IPTextField.getText(), Integer.parseInt(portTextField.getText()));
                 cliente.setVisible(true);
                 this.setVisible(false);
-                cliente.loop();
+                //cliente.loop();
             } catch (IOException ex) {
                 Logger.getLogger(InterfaceGrafica.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -191,7 +195,7 @@ public class InterfaceGrafica extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                InterfaceGrafica p =new InterfaceGrafica();
+                InterfaceGrafica p = new InterfaceGrafica();
                 p.setVisible(true);
             }
         });
