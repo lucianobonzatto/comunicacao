@@ -6,6 +6,7 @@
 package teste.pkg2;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,7 +27,12 @@ public class InterfaceGraficaCliente extends javax.swing.JFrame{
                 }
                 if(!cliente.getMsg().isEmpty())
                 {
-                    mensagemTextField.setText(cliente.getMsg());
+                    String msg = cliente.getMsg();
+                    //String criptogra = new String;
+                    //ArrayList<Boolean> bin = strToBinary(msg);
+                    //ArrayList<int> alg = new ArrayList<int>;
+             
+                    mensagemTextField.setText(msg);
                 }
             }
         }
@@ -52,15 +58,6 @@ public class InterfaceGraficaCliente extends javax.swing.JFrame{
         binarioTextField.setEditable(false);
         algoritmoTextField.setEditable(false);
         
-
-        
-    }
-    
-    public void loop() throws InterruptedException{
-      //  while(true){
-            if(!cliente.getMsg().isEmpty())
-                mensagemTextField.setText(cliente.getMsg());
-       // }
     }
 
     /**

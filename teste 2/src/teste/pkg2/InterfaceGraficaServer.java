@@ -6,6 +6,9 @@
 package teste.pkg2;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -138,10 +141,66 @@ public class InterfaceGraficaServer extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    private ArrayList<Boolean> strToBinary(String s) throws UnsupportedEncodingException
+    {
+        //retorna o valor da string em ascII extendido 
+        int n = s.length();
+        ArrayList<Boolean> palavra = new ArrayList<>();
+        for (int i = 0; i < n; i++)
+        {
+            int val;
+            ArrayList<Boolean> letra = new ArrayList<>();
+            
+            val = (int) s.charAt(i);
+            while (val > 0){
+                if (val % 2 == 1){
+                    letra.add(true);
+                }
+                else
+                    letra.add(false);
+                val /= 2;
+            }
+            while(letra.size() < 8)     //garante que a letra tenha 8 bits
+            {
+                letra.add(false);
+            }
+            for(int j=7; j>=0; j--)      //adiciona a letra a palavra
+            {
+                palavra.add(letra.get(j));
+            }
+        }
+        return palavra;
+    }
+    
+    private String arrayToStr(ArrayList<Boolean> palavra)
+    {
+        String output = "";
+        for(int i=0; i<palavra.size();i++)
+        {
+            if(palavra.get(i)){
+                output += '1';
+            }
+            else{
+                output += '0';
+            }
+        }
+        return output;
+    }
+    
+    
     private void enviarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enviarButtonActionPerformed
         try {
             // TODO add your handling code here:
-            System.out.println("msg = " + mensagemTextField.getText());
+            String msg = mensagemTextField.getText();
+            //String criptogra = new String;
+            ArrayList<Boolean> bin = strToBinary(msg);
+            //ArrayList<int> alg = new ArrayList<int>;
+            
+            System.out.println("msg = " + msg);
+            System.out.println("bin = " + arrayToStr(bin));
+            
+            binarioTextField.setText(arrayToStr(bin));
             server.sendMsg(mensagemTextField.getText());
         } catch (IOException ex) {
             //ninguem conectado
