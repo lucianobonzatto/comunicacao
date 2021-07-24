@@ -188,6 +188,62 @@ public class InterfaceGraficaServer extends javax.swing.JFrame {
         return output;
     }
     
+    private ArrayList<Integer> binToAlg(ArrayList<Boolean> bin){
+        
+        //| next | posi | nega |
+        //|  00  |  +1  |  -1  |
+        //|  01  |  +3  |  -3  |
+        //|  10  |  -1  |  +1  |
+        //|  11  |  -3  |  +3  |
+        ArrayList<Integer> alg = new ArrayList<>();
+        boolean sigAnterio = true; //true é positivo false é negativo
+        
+        for(int i=0; i<bin.size(); i+=2)
+        {
+            if(bin.get(i+1) == false && bin.get(i) == false){       //00
+                if(sigAnterio){
+                    alg.add(1);
+                    sigAnterio = true;
+                }
+                else{
+                    alg.add(-1);
+                    sigAnterio = false;
+                }
+            }
+            else if(bin.get(i+1) == false && bin.get(i) == true){   //01
+                if(sigAnterio){
+                    alg.add(3);
+                    sigAnterio = true;
+                }
+                else{
+                    alg.add(-3);
+                    sigAnterio = false;
+                }
+            }
+            else if(bin.get(i+1) == true && bin.get(i) == false){   //10
+                if(sigAnterio){
+                    alg.add(-1);
+                    sigAnterio = false;
+                }
+                else{
+                    alg.add(1);
+                    sigAnterio = true;
+                }
+            }
+            else if(bin.get(i+1) == true && bin.get(i) == true){    //11
+                if(sigAnterio){
+                    alg.add(-3);
+                    sigAnterio = false;
+                }
+                else{
+                    alg.add(3);
+                    sigAnterio = true;
+                }
+            }
+        }
+        
+        return alg;
+    }
     
     private void enviarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enviarButtonActionPerformed
         try {
@@ -195,13 +251,16 @@ public class InterfaceGraficaServer extends javax.swing.JFrame {
             String msg = mensagemTextField.getText();
             //String criptogra = new String;
             ArrayList<Boolean> bin = strToBinary(msg);
-            //ArrayList<int> alg = new ArrayList<int>;
+            ArrayList<Integer> alg = binToAlg(bin);
             
             System.out.println("msg = " + msg);
             System.out.println("bin = " + arrayToStr(bin));
+            System.out.println("alg = " + alg);
             
             binarioTextField.setText(arrayToStr(bin));
-            server.sendMsg(mensagemTextField.getText());
+            algoritmoTextField.setText(alg.toString());
+            
+            server.sendMsg(bin);
         } catch (IOException ex) {
             //ninguem conectado
             Logger.getLogger(InterfaceGraficaServer.class.getName()).log(Level.SEVERE, null, ex);

@@ -10,6 +10,7 @@ import java.io.ObjectOutputStream;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -40,11 +41,11 @@ public class Server extends Thread{
         }
     }
     
-    public void sendMsg(String msg) throws IOException{
+    public void sendMsg(ArrayList<Boolean> bin) throws IOException{
         if(cliente != null){
             if(cliente.isConnected()){
                 saida.flush();
-                saida.writeObject(msg);
+                saida.writeObject(bin);
             }
         }
         else{

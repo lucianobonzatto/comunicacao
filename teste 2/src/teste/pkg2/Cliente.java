@@ -19,13 +19,12 @@ import javax.swing.JOptionPane;
  */
 public class Cliente extends Thread{
     private Socket cliente;
-    private String msg;
+    private ArrayList<Boolean> bin;
     
     public Cliente(String IP, int port){
         try {
             cliente = new Socket(IP,port);
-            
-            msg = new String();
+            bin = new ArrayList<>();
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "erro: " + ex, "janela de erro", JOptionPane.ERROR_MESSAGE);
             //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
@@ -40,7 +39,7 @@ public class Cliente extends Thread{
             entrada = new ObjectInputStream(cliente.getInputStream());
             while(cliente.isConnected()){
                 try{
-                    msg = (String)entrada.readObject();
+                    bin = (ArrayList<Boolean>)entrada.readObject();
                     //System.out.println("msg = " + msg);
                 }
                 catch(IOException | ClassNotFoundException ex){         //Evita que não ultrapasse o tamanho do arquivo.
@@ -53,7 +52,7 @@ public class Cliente extends Thread{
         }
     }
     
-    public String getMsg(){
-        return msg;
+    public ArrayList<Boolean> getBin(){
+        return bin;
     }
 }

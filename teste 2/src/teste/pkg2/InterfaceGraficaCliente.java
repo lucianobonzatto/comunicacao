@@ -25,14 +25,17 @@ public class InterfaceGraficaCliente extends javax.swing.JFrame{
                 } catch (InterruptedException ex) {
                     Logger.getLogger(InterfaceGraficaCliente.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                if(!cliente.getMsg().isEmpty())
+                if(!cliente.getBin().isEmpty())
                 {
-                    String msg = cliente.getMsg();
+                    ArrayList<Boolean> bin = cliente.getBin();
+                    String msg = binarioToStr(bin);
+                    //String msg = arrayToStr(bin);
+                    
                     //String criptogra = new String;
-                    //ArrayList<Boolean> bin = strToBinary(msg);
                     //ArrayList<int> alg = new ArrayList<int>;
              
                     mensagemTextField.setText(msg);
+                    binarioTextField.setText(arrayToStr(bin));
                 }
             }
         }
@@ -42,6 +45,54 @@ public class InterfaceGraficaCliente extends javax.swing.JFrame{
      */
     public InterfaceGraficaCliente(){
         initComponents();
+    }
+    
+    private String binarioToStr(ArrayList<Boolean> bin)
+    {
+        String output = "";
+        int letra=0;
+        int mult=128;
+        int i;
+        for(i=0; i<bin.size(); i++)
+        {
+            if (i%8 ==0){
+                mult = 128;
+                if(i!=0){
+                    output += (char)letra;
+                }
+                if(bin.get(i)){
+                   letra = mult;
+                }
+                else{
+                    letra = 0;
+                }
+            }
+            else{
+                mult /= 2;
+                if(bin.get(i)){
+                    letra += mult;
+                }
+            }
+        }
+        if(!bin.isEmpty()){
+            output += (char)letra;
+        }
+        return output;
+    }
+    
+    private String arrayToStr(ArrayList<Boolean> bin)
+    {
+        String output = "";
+        for(int i=0; i<bin.size();i++)
+        {
+            if(bin.get(i)){
+                output += '1';
+            }
+            else{
+                output += '0';
+            }
+        }
+        return output;
     }
     
     public InterfaceGraficaCliente(String IP, int port) throws IOException {
