@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -200,7 +201,7 @@ public class InterfaceGraficaServer extends javax.swing.JFrame {
         
         for(int i=0; i<bin.size(); i+=2)
         {
-            if(bin.get(i+1) == false && bin.get(i) == false){       //00
+            if(bin.get(i) == false && bin.get(i+1) == false){       //00
                 if(sigAnterio){
                     alg.add(1);
                     sigAnterio = true;
@@ -210,7 +211,7 @@ public class InterfaceGraficaServer extends javax.swing.JFrame {
                     sigAnterio = false;
                 }
             }
-            else if(bin.get(i+1) == false && bin.get(i) == true){   //01
+            else if(bin.get(i) == false && bin.get(i+1) == true){   //01
                 if(sigAnterio){
                     alg.add(3);
                     sigAnterio = true;
@@ -220,7 +221,7 @@ public class InterfaceGraficaServer extends javax.swing.JFrame {
                     sigAnterio = false;
                 }
             }
-            else if(bin.get(i+1) == true && bin.get(i) == false){   //10
+            else if(bin.get(i) == true && bin.get(i+1) == false){   //10
                 if(sigAnterio){
                     alg.add(-1);
                     sigAnterio = false;
@@ -230,7 +231,7 @@ public class InterfaceGraficaServer extends javax.swing.JFrame {
                     sigAnterio = true;
                 }
             }
-            else if(bin.get(i+1) == true && bin.get(i) == true){    //11
+            else if(bin.get(i) == true && bin.get(i+1) == true){    //11
                 if(sigAnterio){
                     alg.add(-3);
                     sigAnterio = false;
@@ -260,6 +261,7 @@ public class InterfaceGraficaServer extends javax.swing.JFrame {
             binarioTextField.setText(arrayToStr(bin));
             algoritmoTextField.setText(alg.toString());
             
+            Collections.reverse(bin);
             server.sendMsg(bin);
         } catch (IOException ex) {
             //ninguem conectado
