@@ -8,10 +8,13 @@ package teste.pkg2;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.jfree.chart.*;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
 /**
  *
@@ -41,7 +44,7 @@ public class InterfaceGraficaServer extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanelGrafico = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -54,14 +57,14 @@ public class InterfaceGraficaServer extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout jPanelGraficoLayout = new javax.swing.GroupLayout(jPanelGrafico);
+        jPanelGrafico.setLayout(jPanelGraficoLayout);
+        jPanelGraficoLayout.setHorizontalGroup(
+            jPanelGraficoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 381, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jPanelGraficoLayout.setVerticalGroup(
+            jPanelGraficoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 246, Short.MAX_VALUE)
         );
 
@@ -70,6 +73,12 @@ public class InterfaceGraficaServer extends javax.swing.JFrame {
         jLabel2.setText("cript");
 
         jLabel3.setText("alg");
+
+        criptografiaTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                criptografiaTextFieldActionPerformed(evt);
+            }
+        });
 
         enviarButton.setText("enviar");
         enviarButton.addActionListener(new java.awt.event.ActionListener() {
@@ -92,7 +101,7 @@ public class InterfaceGraficaServer extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanelGrafico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -135,14 +144,13 @@ public class InterfaceGraficaServer extends javax.swing.JFrame {
                             .addComponent(algoritmoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(39, 39, 39)
                         .addComponent(enviarButton))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanelGrafico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(143, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    
+   
     private ArrayList<Boolean> strToBinary(String s) throws UnsupportedEncodingException
     {
         //retorna o valor da string em ascII extendido 
@@ -189,7 +197,20 @@ public class InterfaceGraficaServer extends javax.swing.JFrame {
         return output;
     }
     
-    private ArrayList<Integer> binToAlg(ArrayList<Boolean> bin){
+    private String criptografia(String msg)
+    {
+        String output = "";
+        
+        for (int i = 0; i < msg.length(); i++)
+        {
+            output += (char)(((int)msg.charAt(i) + msg.length()+90)%255);
+        }
+        
+        return output;
+    }
+    
+    private ArrayList<Integer> binToAlg(ArrayList<Boolean> bin)
+    {
         
         //| next | posi | nega |
         //|  00  |  +1  |  -1  |
@@ -246,22 +267,60 @@ public class InterfaceGraficaServer extends javax.swing.JFrame {
         return alg;
     }
     
+    private XYDataset createDataset(ArrayList<Integer> alg)
+    {
+        
+        XYSeries s1 = new XYSeries("S1");
+        
+        for(int i = 0; i < alg.size(); i++)
+        {
+            s1.add(i, alg.get(i));
+            s1.add(i+1, alg.get(i));
+        }
+        XYSeriesCollection dataset = new XYSeriesCollection();
+        
+        dataset.addSeries(s1);
+        return dataset;
+    }
+    
+    private void criarGrafico(ArrayList<Integer> alg)
+    {
+        XYDataset cds = createDataset(alg);
+        String titulo = "Código De Linha";
+        String eixoy = "Tensão (V)";
+        String txt_legenda = "Tempo";
+        boolean legenda = false;
+        boolean tooltips = false;
+        boolean urls = true;
+        JFreeChart graf = ChartFactory.createXYLineChart(titulo, txt_legenda, eixoy, cds, PlotOrientation.VERTICAL, legenda, tooltips, urls);
+        
+        ChartPanel myChartPanel = new ChartPanel(graf, true);
+        myChartPanel.setSize(jPanelGrafico.getWidth(), jPanelGrafico.getHeight());
+        myChartPanel.setVisible(true);
+        jPanelGrafico.removeAll();
+        jPanelGrafico.add(myChartPanel);
+        jPanelGrafico.revalidate();
+        jPanelGrafico.repaint();
+    }
+    
     private void enviarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enviarButtonActionPerformed
         try {
-            // TODO add your handling code here:
             String msg = mensagemTextField.getText();
-            //String criptogra = new String;
-            ArrayList<Boolean> bin = strToBinary(msg);
+            String cript = criptografia(msg);
+            ArrayList<Boolean> bin = strToBinary(cript);
             ArrayList<Integer> alg = binToAlg(bin);
             
             System.out.println("msg = " + msg);
+            System.out.println("cript = " + cript);
             System.out.println("bin = " + arrayToStr(bin));
             System.out.println("alg = " + alg);
+            criarGrafico(alg);
             
             binarioTextField.setText(arrayToStr(bin));
+            criptografiaTextField.setText(cript);
             algoritmoTextField.setText(alg.toString());
             
-            Collections.reverse(bin);
+            //Collections.reverse(bin);
             server.sendMsg(bin);
         } catch (IOException ex) {
             //ninguem conectado
@@ -273,6 +332,10 @@ public class InterfaceGraficaServer extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_binarioTextFieldActionPerformed
 
+    private void criptografiaTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_criptografiaTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_criptografiaTextFieldActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField algoritmoTextField;
     private javax.swing.JTextField binarioTextField;
@@ -282,7 +345,7 @@ public class InterfaceGraficaServer extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanelGrafico;
     private javax.swing.JTextField mensagemTextField;
     // End of variables declaration//GEN-END:variables
 }

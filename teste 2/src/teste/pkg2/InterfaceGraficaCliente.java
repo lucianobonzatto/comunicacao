@@ -27,13 +27,12 @@ public class InterfaceGraficaCliente extends javax.swing.JFrame{
                 }
                 if(!cliente.getBin().isEmpty())
                 {
+                    //ArrayList<int> alg = cliente.getBin();
                     ArrayList<Boolean> bin = cliente.getBin();
-                    String msg = binarioToStr(bin);
-                    //String msg = arrayToStr(bin);
-                    
-                    //String criptogra = new String;
-                    //ArrayList<int> alg = new ArrayList<int>;
-             
+                    String cript = binarioToStr(bin);
+                    String msg = descriptografia(cript);
+
+                    criptografiaTextField.setText(cript);
                     mensagemTextField.setText(msg);
                     binarioTextField.setText(arrayToStr(bin));
                 }
@@ -43,8 +42,25 @@ public class InterfaceGraficaCliente extends javax.swing.JFrame{
     /**
      * Creates new form InterfaceGraficaCliente
      */
-    public InterfaceGraficaCliente(){
+    public InterfaceGraficaCliente()
+    {
         initComponents();
+    }
+    
+    public String descriptografia(String cript)
+    {
+        String output = "";
+
+        for(int i = 0; i < cript.length(); i++){
+            int letraAux = (int)cript.charAt(i) - cript.length()-90;
+            if(letraAux >= 0)
+                output += (char)(((int)cript.charAt(i) - cript.length()-90)%255);
+            else{
+                output += (char)((255 + letraAux)%255);
+            }
+
+        }
+        return output;
     }
     
     private String binarioToStr(ArrayList<Boolean> bin)
@@ -95,7 +111,8 @@ public class InterfaceGraficaCliente extends javax.swing.JFrame{
         return output;
     }
     
-    public InterfaceGraficaCliente(String IP, int port) throws IOException {
+    public InterfaceGraficaCliente(String IP, int port) throws IOException
+    {
         System.out.println("IP = " + IP);
         System.out.println("port = " + port);
         cliente = new Cliente(IP, port);
