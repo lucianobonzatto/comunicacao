@@ -49,7 +49,7 @@ public class Server extends Thread{
             }
         }
         else{
-            JOptionPane.showMessageDialog(null, "erro: " + "Nenhum cliente conectado", "Sem cliente conectado", JOptionPane.ERROR_MESSAGE);
+            //JOptionPane.showMessageDialog(null, "erro: " + "Nenhum cliente conectado", "Sem cliente conectado", JOptionPane.ERROR_MESSAGE);
         }
     }
     
