@@ -34,14 +34,17 @@ public class InterfaceGraficaCliente extends javax.swing.JFrame{
                 }
                 if(!cliente.getBin().isEmpty())
                 {
-                    //ArrayList<int> alg = cliente.getBin();
-                    ArrayList<Boolean> bin = cliente.getBin();
+                    ArrayList<Integer> alg = cliente.getBin();
+                    ArrayList<Boolean> bin = algoritmoToBin(alg);
                     String cript = binarioToStr(bin);
                     String msg = descriptografia(cript);
-
+                    
                     criptografiaTextField.setText(cript);
                     mensagemTextField.setText(msg);
                     binarioTextField.setText(arrayToStr(bin));
+                    algoritmoTextField.setText(alg.toString());
+                    
+                    criarGrafico(alg);
                 }
             }
         }
@@ -68,6 +71,21 @@ public class InterfaceGraficaCliente extends javax.swing.JFrame{
 
         }
         return output;
+    }
+    
+    private ArrayList<Boolean> algoritmoToBin(ArrayList<Integer> alg)
+    {
+        ArrayList<Boolean> bin = new ArrayList<>();
+        
+        for(int i=0; i<alg.size(); i++)
+        {
+            if(alg.get(i) > 0)
+                bin.add(true);
+            else
+                bin.add(false);
+        }
+        
+        return bin;
     }
     
     private String binarioToStr(ArrayList<Boolean> bin)
@@ -193,7 +211,6 @@ public class InterfaceGraficaCliente extends javax.swing.JFrame{
         algoritmoTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(720, 412));
 
         javax.swing.GroupLayout jPanelGraficoLayout = new javax.swing.GroupLayout(jPanelGrafico);
         jPanelGrafico.setLayout(jPanelGraficoLayout);
@@ -205,6 +222,8 @@ public class InterfaceGraficaCliente extends javax.swing.JFrame{
             jPanelGraficoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 251, Short.MAX_VALUE)
         );
+
+        jPanel2.setPreferredSize(new java.awt.Dimension(570, 120));
 
         jLabel1.setText("msg");
 
@@ -267,7 +286,7 @@ public class InterfaceGraficaCliente extends javax.swing.JFrame{
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
                     .addComponent(jPanelGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -277,8 +296,8 @@ public class InterfaceGraficaCliente extends javax.swing.JFrame{
                 .addContainerGap()
                 .addComponent(jPanelGrafico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();

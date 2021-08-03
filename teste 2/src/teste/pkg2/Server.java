@@ -41,11 +41,11 @@ public class Server extends Thread{
         }
     }
     
-    public void sendMsg(ArrayList<Boolean> bin) throws IOException{
+    public void sendMsg(ArrayList<Integer> alg) throws IOException{
         if(cliente != null){
             if(cliente.isConnected()){
                 saida.flush();
-                saida.writeObject(bin);
+                saida.writeObject(alg);
             }
         }
         else{

@@ -8,6 +8,7 @@ package teste.pkg2;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jfree.chart.*;
@@ -177,7 +178,7 @@ public class InterfaceGraficaServer extends javax.swing.JFrame{
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(enviarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(21, 21, 21))))
         );
@@ -354,8 +355,8 @@ public class InterfaceGraficaServer extends javax.swing.JFrame{
             criptografiaTextField.setText(cript);
             algoritmoTextField.setText(alg.toString());
             
-            //Collections.reverse(bin);
-            server.sendMsg(bin);
+            Collections.reverse(alg);
+            server.sendMsg(alg);
         } catch (IOException ex) {
             //ninguem conectado
             Logger.getLogger(InterfaceGraficaServer.class.getName()).log(Level.SEVERE, null, ex);
