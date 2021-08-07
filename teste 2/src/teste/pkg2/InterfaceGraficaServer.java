@@ -246,6 +246,7 @@ public class InterfaceGraficaServer extends javax.swing.JFrame{
     
     private ArrayList<Integer> binToAlg(ArrayList<Boolean> bin)
     {
+        //|      |  +   |  -   |
         //| next | posi | nega |
         //|  00  |  +1  |  -1  |
         //|  01  |  +3  |  -3  |

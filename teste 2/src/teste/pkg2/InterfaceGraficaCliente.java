@@ -7,6 +7,7 @@ package teste.pkg2;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jfree.chart.ChartFactory;
@@ -24,7 +25,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 public class InterfaceGraficaCliente extends javax.swing.JFrame{
     
     private Cliente cliente;
-    Thread teste = new Thread(new Runnable() {
+    Thread teste = new Thread(new Runnable(){
         public void run() {
             while(true){
                 try {
@@ -75,16 +76,75 @@ public class InterfaceGraficaCliente extends javax.swing.JFrame{
     
     private ArrayList<Boolean> algoritmoToBin(ArrayList<Integer> alg)
     {
-        ArrayList<Boolean> bin = new ArrayList<>();
+        //|      |  +   |  -   |        //|      |  +   |  -   |
+        //| valor| bits | bits |        //| valor| bits | bits |
+        //|  +1  |  00  |  10  |        //|  +1  |  00  |  01  |
+        //|  +3  |  01  |  11  |        //|  +3  |  10  |  11  |
+        //|  -3  |  11  |  01  |        //|  -3  |  11  |  10  |
+        //|  -1  |  10  |  00  |        //|  -1  |  01  |  00  |
+        // Como a decodificação da os valores invertidos, usamos
+        // a tabela da direita para que seja uma inversão direta
         
-        for(int i=0; i<alg.size(); i++)
+        ArrayList<Boolean> bin = new ArrayList<>();
+        boolean sinalProx;   //true é positivo falso é negativo
+        
+        for(int i = 0; i < alg.size(); i++)
         {
-            if(alg.get(i) > 0)
-                bin.add(true);
+            sinalProx = true;
+            if((i+1) < alg.size() && alg.get(i+1) < 0){
+                sinalProx = false;
+            }
+            
+            if(sinalProx == true)
+            {
+                if(null != alg.get(i))switch (alg.get(i)) {
+                    case +1:
+                        bin.add(false);
+                        bin.add(false);
+                        break;
+                    case +3:
+                        bin.add(true);
+                        bin.add(false);
+                        break;
+                    case -1:
+                        bin.add(false);
+                        bin.add(true);
+                        break;
+                    case -3:
+                        bin.add(true);
+                        bin.add(true);
+                        break;
+                    default:
+                        break;
+                }
+            }
             else
-                bin.add(false);
+            {
+                if(null != alg.get(i))switch (alg.get(i)) {
+                    case +1:
+                        bin.add(false);
+                        bin.add(true);
+                        break;
+                    case +3:
+                        bin.add(true);
+                        bin.add(true);
+                        break;
+                    case -1:
+                        bin.add(false);
+                        bin.add(false);
+                        break;
+                    case -3:
+                        bin.add(true);
+                        bin.add(false);
+                        break;
+                    default:
+                        break;
+                }
+                
+            }
         }
         
+        Collections.reverse(bin);
         return bin;
     }
     
