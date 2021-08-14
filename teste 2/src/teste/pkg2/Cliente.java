@@ -23,8 +23,8 @@ public class Cliente extends Thread{
     
     public Cliente(String IP, int port){
         try {
-            cliente = new Socket(IP,port);
-            alg = new ArrayList<>();
+            cliente = new Socket(IP,port);      //cria o cliente e ja estabelece a coneccao com o server
+            alg = new ArrayList<>();            //inicializa o array que recebe o alg. Linha
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "erro: " + ex, "janela de erro", JOptionPane.ERROR_MESSAGE);
             //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
@@ -52,7 +52,7 @@ public class Cliente extends Thread{
         }
     }
     
-    public ArrayList<Integer> getBin(){
+    public ArrayList<Integer> getAlg(){
         return alg;
     }
 }

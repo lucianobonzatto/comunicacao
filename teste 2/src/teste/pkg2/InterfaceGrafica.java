@@ -15,8 +15,6 @@ import javax.swing.ButtonGroup;
  * @author lucia
  */
 public class InterfaceGrafica extends javax.swing.JFrame {
-    
-    
     private ButtonGroup controleRadio;
     /**
      * Creates new form InterfaceGrafica

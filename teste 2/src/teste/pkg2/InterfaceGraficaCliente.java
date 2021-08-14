@@ -27,25 +27,31 @@ public class InterfaceGraficaCliente extends javax.swing.JFrame{
     private Cliente cliente;
     Thread teste = new Thread(new Runnable(){
         public void run() {
+            
+            ArrayList<Integer> alg = cliente.getAlg();
+            
             while(true){
                 try {
                     Thread.sleep(10);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(InterfaceGraficaCliente.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                if(!cliente.getBin().isEmpty())
+                if(!cliente.getAlg().isEmpty())
                 {
-                    ArrayList<Integer> alg = cliente.getBin();
-                    ArrayList<Boolean> bin = algoritmoToBin(alg);
-                    String cript = binarioToStr(bin);
-                    String msg = descriptografia(cript);
-                    
-                    criptografiaTextField.setText(cript);
-                    mensagemTextField.setText(msg);
-                    binarioTextField.setText(arrayToStr(bin));
-                    algoritmoTextField.setText(alg.toString());
-                    
-                    criarGrafico(alg);
+                    if(!algoritmoTextField.getText().equals(alg.toString()))
+                    {
+                        alg = cliente.getAlg();
+                        ArrayList<Boolean> bin = algoritmoToBin(alg);
+                        String cript = binarioToStr(bin);
+                        String msg = descriptografia(cript);
+
+                        criptografiaTextField.setText(cript);
+                        mensagemTextField.setText(msg);
+                        binarioTextField.setText(arrayToStr(bin));
+                        algoritmoTextField.setText(alg.toString());
+
+                        criarGrafico(alg);
+                    }
                 }
             }
         }
@@ -61,15 +67,14 @@ public class InterfaceGraficaCliente extends javax.swing.JFrame{
     public String descriptografia(String cript)
     {
         String output = "";
-
+        
         for(int i = 0; i < cript.length(); i++){
-            int letraAux = (int)cript.charAt(i) - cript.length()-90;
+            int letraAux = (int)cript.charAt(i)-cript.length()-90;
             if(letraAux >= 0)
-                output += (char)(((int)cript.charAt(i) - cript.length()-90)%255);
+                output += (char)(((int)cript.charAt(i)-cript.length()-90)%255);
             else{
                 output += (char)((255 + letraAux)%255);
             }
-
         }
         return output;
     }
@@ -140,7 +145,6 @@ public class InterfaceGraficaCliente extends javax.swing.JFrame{
                     default:
                         break;
                 }
-                
             }
         }
         
@@ -203,8 +207,8 @@ public class InterfaceGraficaCliente extends javax.swing.JFrame{
         cliente = new Cliente(IP, port);
         
         initComponents();
-        cliente.start();
-        teste.start();
+        cliente.start();        //cria o cliente
+        teste.start();          //inicializa a thread
         
         mensagemTextField.setEditable(false);
         criptografiaTextField.setEditable(false);

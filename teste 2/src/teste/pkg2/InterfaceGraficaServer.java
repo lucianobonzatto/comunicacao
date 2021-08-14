@@ -30,8 +30,8 @@ public class InterfaceGraficaServer extends javax.swing.JFrame{
      */
     public InterfaceGraficaServer(int port) throws IOException {
         System.out.println("port = " + port);
-        server = new Server(port);
-        server.start();
+        server = new Server(port);      //cria o server
+        server.start();                 //inicialização das threads
         initComponents();
     }
 
@@ -197,7 +197,7 @@ public class InterfaceGraficaServer extends javax.swing.JFrame{
             ArrayList<Boolean> letra = new ArrayList<>();
             
             val = (int) s.charAt(i);
-            while (val > 0){
+            while (val > 0){            //slgoritmo padrao de int para bin
                 if (val % 2 == 1){
                     letra.add(true);
                 }
@@ -235,12 +235,10 @@ public class InterfaceGraficaServer extends javax.swing.JFrame{
     private String criptografia(String msg)
     {
         String output = "";
-        
         for (int i = 0; i < msg.length(); i++)
         {
             output += (char)(((int)msg.charAt(i) + msg.length()+90)%255);
         }
-        
         return output;
     }
     
@@ -309,7 +307,7 @@ public class InterfaceGraficaServer extends javax.swing.JFrame{
         
         for(int i = 0; i < alg.size(); i++)
         {
-            s1.add(i, alg.get(i));
+            s1.add(i, alg.get(i));      //inclui duas vezes para ficar quadrado
             s1.add(i+1, alg.get(i));
         }
         XYSeriesCollection dataset = new XYSeriesCollection();
@@ -340,11 +338,12 @@ public class InterfaceGraficaServer extends javax.swing.JFrame{
     }
     
     private void enviar(){
+        //faz toda a transformaçcao desde a mensagem até o alg Linha e envia para o cliente
         try {
-            String msg = mensagemTextField.getText();
-            String cript = criptografia(msg);
-            ArrayList<Boolean> bin = strToBinary(cript);
-            ArrayList<Integer> alg = binToAlg(bin);
+            String msg = mensagemTextField.getText();       //pega a mensagem
+            String cript = criptografia(msg);               //criptografa a mensagem
+            ArrayList<Boolean> bin = strToBinary(cript);    //transforma para binario
+            ArrayList<Integer> alg = binToAlg(bin);         //constroi o alg linha com 2B1Q
             
             System.out.println("msg = " + msg);
             System.out.println("cript = " + cript);
@@ -387,7 +386,7 @@ public class InterfaceGraficaServer extends javax.swing.JFrame{
 
     private void mensagemTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mensagemTextFieldKeyReleased
         // TODO add your handling code here:
-        enviar();
+        //enviar();
     }//GEN-LAST:event_mensagemTextFieldKeyReleased
 
     private void mensagemTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mensagemTextFieldKeyTyped

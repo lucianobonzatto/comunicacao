@@ -7,13 +7,11 @@ package teste.pkg2;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -25,7 +23,7 @@ public class Server extends Thread{
     private Socket cliente;
     
     public Server(int port) throws IOException{
-        server = new ServerSocket(port);
+        server = new ServerSocket(port);        //cria um socket com o IP do pc e a porta
     }
     
     @Override
@@ -47,9 +45,6 @@ public class Server extends Thread{
                 saida.flush();
                 saida.writeObject(alg);
             }
-        }
-        else{
-            //JOptionPane.showMessageDialog(null, "erro: " + "Nenhum cliente conectado", "Sem cliente conectado", JOptionPane.ERROR_MESSAGE);
         }
     }
     
