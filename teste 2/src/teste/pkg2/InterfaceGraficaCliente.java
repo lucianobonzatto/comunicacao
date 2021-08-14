@@ -38,7 +38,7 @@ public class InterfaceGraficaCliente extends javax.swing.JFrame{
                 }
                 if(!cliente.getAlg().isEmpty())
                 {
-                    if(!algoritmoTextField.getText().equals(alg.toString()))
+                    if(!algoritmoTextField.getText().equals(cliente.getAlg().toString()))
                     {
                         alg = cliente.getAlg();
                         ArrayList<Boolean> bin = algoritmoToBin(alg);
